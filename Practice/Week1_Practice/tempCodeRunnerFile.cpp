@@ -2,9 +2,11 @@
 
 constexpr int NAME_SIZE = 100;
 
-enum class OperaingSystem {
+enum class OperatingSystem {
+
+    NONE = -1,
     MAC,
-    MICRОSOFT_WINDOWS,
+    MICROSOFT_WINDOWS,
     LINUX,
     SOLARIS
 };
@@ -69,24 +71,34 @@ void readOperatingSystem(OperatingSystem &os) {
     }
 }
 
+void clearBuffer() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
 void inputLaptop(Laptop& laptop) {
-    std::cout<<"Enter the price of the laptop";
-    std::cin>> laptop.price;
+    std::cout << "Enter price: ";
+    std::cin >> laptop.price;
+    clearBuffer(); // ЗАДЪЛЖИТЕЛНО след cin >>
 
-    std::cout<<"Enter the laptop brand";
-    readName(laptop.brand, NAME_SIZE);
+    std::cout << "Enter brand: ";
+    // Чете до 99 символа или до нов ред и поставя \0
+    std::cin.getline(laptop.brand, NAME_SIZE);
 
-    std::cout<<"Enter the screen size: ";
-    std::cin>> laptop.screenSize;
+    std::cout << "Enter screen size: ";
+    std::cin >> laptop.screenSize;
 
-    std::cout<<"Enter the HDD capacity: ";
-    std::cin>> laptop.hddCapacity;
+    std::cout << "Enter HDD capacity: ";
+    std::cin >> laptop.hddCapacity;
+    
+    std::cout << "Has SSD (1/0): ";
+    std::cin >> laptop.hasSSD;
+    clearBuffer(); // ЗАДЪЛЖИТЕЛНО преди следващия getline
 
-    std::cout<<"Enter the GPU model: ";
-    readName(laptop.gpuModel, NAME_SIZE);
+    std::cout << "Enter GPU model: ";
+    std::cin.getline(laptop.gpuModel, NAME_SIZE);
 
-    readOperatingSystem(laptop.os);
-
+    // Тук извикваш твоята функция за OS (вече поправена)
+    // readOperatingSystem(laptop.os);
 }
 
 void printLaptopInfo(const Laptop &laptop) {
@@ -120,8 +132,7 @@ int main()
 {
     Laptop myLaptop;
 
-    // Четене на лаптопа
-    readLaptop(myLaptop);
+    
 
     // Отпечатваме информацията за лаптопа
     printLaptopInfo(myLaptop);
